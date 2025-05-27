@@ -1,29 +1,12 @@
-import { sql } from "drizzle-orm";
 import {
-  boolean,
-  index,
-  pgTableCreator,
+  pgTable,
   text,
   timestamp,
+  boolean,
+  integer,
 } from "drizzle-orm/pg-core";
 
-export const createTable = pgTableCreator((name) => `meet-ai_${name}`);
-
-export const posts = createTable(
-  "post",
-  (d) => ({
-    id: d.integer().primaryKey().generatedByDefaultAsIdentity(),
-    name: d.varchar({ length: 256 }),
-    createdAt: d
-      .timestamp({ withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
-  }),
-  (t) => [index("name_idx").on(t.name)],
-);
-
-export const user = createTable("user", {
+export const user = pgTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
@@ -39,7 +22,7 @@ export const user = createTable("user", {
     .notNull(),
 });
 
-export const session = createTable("session", {
+export const session = pgTable("session", {
   id: text("id").primaryKey(),
   expiresAt: timestamp("expires_at").notNull(),
   token: text("token").notNull().unique(),
@@ -52,7 +35,7 @@ export const session = createTable("session", {
     .references(() => user.id, { onDelete: "cascade" }),
 });
 
-export const account = createTable("account", {
+export const account = pgTable("account", {
   id: text("id").primaryKey(),
   accountId: text("account_id").notNull(),
   providerId: text("provider_id").notNull(),
@@ -70,7 +53,7 @@ export const account = createTable("account", {
   updatedAt: timestamp("updated_at").notNull(),
 });
 
-export const verification = createTable("verification", {
+export const verification = pgTable("verification", {
   id: text("id").primaryKey(),
   identifier: text("identifier").notNull(),
   value: text("value").notNull(),
