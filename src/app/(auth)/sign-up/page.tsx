@@ -2,29 +2,42 @@
 
 import { GalleryVerticalEnd } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 import { toast } from "sonner";
 import { AuthForm } from "~/components/auth-form";
 import { authClient } from "~/lib/auth-client";
 
 export default function SignUpPage() {
+  const [isLoading, setIsLoading] = useState(false);
   const handleSignUp = async (data: {
     name: string;
     email: string;
     password: string;
   }) => {
-    await authClient.signUp.email(
-      { ...data },
-      {
-        onError(context) {
-          toast.error(
-            context.error?.message || "An error occurred during sign up.",
-          );
+    setIsLoading(true);
+    try {
+      await authClient.signUp.email(
+        { ...data },
+        {
+          onError(context) {
+            const errorMessage = context.error?.message;
+            if (errorMessage?.includes("email")) {
+              toast.error("Email is already in use or invalid.");
+            } else if (errorMessage?.includes("password")) {
+              toast.error("Password does not meet requirements.");
+            } else {
+              toast.error(errorMessage || "An error occurred during sign up.");
+            }
+          },
+          onSuccess() {
+            toast.success("Sign up successful!");
+          },
         },
-        onSuccess(context) {
-          toast.success("Sign up successful!");
-        },
-      },
-    );
+      );
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -47,7 +60,7 @@ export default function SignUpPage() {
       <div className="bg-muted relative hidden lg:block">
         <Image
           src="/sign-in.png"
-          alt="Image"
+          alt="Sign up illustration"
           fill
           className="object-cover object-center dark:brightness-[0.2] dark:grayscale"
           priority

@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -38,6 +39,7 @@ interface AuthFormProps extends React.ComponentProps<"div"> {
   type: AuthType;
   onSubmit: (data: any) => void;
   className?: string;
+  loading?: boolean;
 }
 
 const formTitles = {
@@ -59,6 +61,7 @@ export function AuthForm({
   type,
   onSubmit,
   className,
+  loading,
   ...props
 }: AuthFormProps) {
   const schema = authSchemas[type];
@@ -138,6 +141,7 @@ export function AuthForm({
             />
           )}
           <Button type="submit" className="w-full">
+            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {type === "signin"
               ? "Sign In"
               : type === "signup"
