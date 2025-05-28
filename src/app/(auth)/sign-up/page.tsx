@@ -7,6 +7,11 @@ import { toast } from "sonner";
 import { AuthForm } from "~/components/auth-form";
 import { authClient } from "~/lib/auth-client";
 
+/**
+ * Renders the sign-up page with a registration form and a background image.
+ *
+ * Displays a sign-up form that collects user information and handles account creation, showing toast notifications for success or error outcomes.
+ */
 export default function SignUpPage() {
   const [isLoading, setIsLoading] = useState(false);
   const handleSignUp = async (data: {

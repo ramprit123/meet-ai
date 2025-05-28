@@ -57,6 +57,16 @@ const formTitles = {
   },
 };
 
+/**
+ * Renders an authentication form that adapts its fields and actions for sign-in, sign-up, or password reset.
+ *
+ * The form validates user input according to the selected authentication type and invokes the provided callback on successful submission. It supports email/password authentication, GitHub social login, and displays context-appropriate navigation links.
+ *
+ * @param type - Specifies the form mode: "signin", "signup", or "forgot".
+ * @param onSubmit - Callback invoked with validated form data upon submission.
+ *
+ * @returns A React component rendering the authentication form UI.
+ */
 export function AuthForm({
   type,
   onSubmit,
