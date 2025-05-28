@@ -18,6 +18,13 @@ const geist = Geist({
   variable: "--font-geist-sans",
 });
 
+/**
+ * Defines the root layout for the application, applying global styles, font configuration, and context providers.
+ *
+ * Wraps all page content with the Geist font, sets the language to English, and provides TRPC context and global toast notifications.
+ *
+ * @param children - The content to be rendered within the layout.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {

@@ -5,6 +5,11 @@ import Image from "next/image";
 import { AuthForm } from "~/components/auth-form";
 import { authClient } from "~/lib/auth-client";
 
+/**
+ * Renders the sign-in page with a form for user authentication and branding.
+ *
+ * Displays a sign-in form that submits user credentials to the authentication client, alongside branding and a background image on large screens.
+ */
 export default function SignInPage() {
   const handleSingIn = async (data: { email: string; password: string }) => {
     authClient.signIn.email({
