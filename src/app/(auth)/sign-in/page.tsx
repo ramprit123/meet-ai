@@ -1,6 +1,8 @@
-import { GalleryVerticalEnd } from "lucide-react"
+"use client";
 
-import { LoginForm } from "~/components/login-form"
+import { GalleryVerticalEnd } from "lucide-react";
+import Image from "next/image";
+import { AuthForm } from "~/components/auth-form";
 
 export default function LoginPage() {
   return (
@@ -16,17 +18,19 @@ export default function LoginPage() {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
-            <LoginForm />
+            <AuthForm type="signin" onSubmit={() => console.log()} />
           </div>
         </div>
       </div>
       <div className="bg-muted relative hidden lg:block">
-        <img
-          src="/placeholder.svg"
+        <Image
+          src="/sign-in.png"
           alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+          fill
+          className="object-cover object-center dark:brightness-[0.2] dark:grayscale"
+          priority
         />
       </div>
     </div>
-  )
+  );
 }
