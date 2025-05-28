@@ -1,8 +1,32 @@
+"use client";
+
 import { GalleryVerticalEnd } from "lucide-react";
+import Image from "next/image";
+import { toast } from "sonner";
+import { AuthForm } from "~/components/auth-form";
+import { authClient } from "~/lib/auth-client";
 
-import { LoginForm } from "~/components/login-form";
+export default function SignUpPage() {
+  const handleSignUp = async (data: {
+    name: string;
+    email: string;
+    password: string;
+  }) => {
+    await authClient.signUp.email(
+      { ...data },
+      {
+        onError(context) {
+          toast.error(
+            context.error?.message || "An error occurred during sign up.",
+          );
+        },
+        onSuccess(context) {
+          toast.success("Sign up successful!");
+        },
+      },
+    );
+  };
 
-export default function LoginPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -16,15 +40,17 @@ export default function LoginPage() {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
-            <LoginForm />
+            <AuthForm type="signup" onSubmit={handleSignUp} />
           </div>
         </div>
       </div>
       <div className="bg-muted relative hidden lg:block">
-        <img
-          src="/placeholder.svg"
+        <Image
+          src="/sign-in.png"
           alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+          fill
+          className="object-cover object-center dark:brightness-[0.2] dark:grayscale"
+          priority
         />
       </div>
     </div>

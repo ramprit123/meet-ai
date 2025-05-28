@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "~/components/ui/button";
@@ -13,6 +14,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import { authClient } from "~/lib/auth-client";
 import { cn } from "~/lib/utils";
 
 const authSchemas = {
@@ -156,7 +158,16 @@ export function AuthForm({
                 </div>
               </div>
 
-              <Button type="button" variant="outline" className="w-full">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                onClick={async () => {
+                  await authClient.signIn.social({
+                    provider: "github",
+                  });
+                }}
+              >
                 <svg
                   className="mr-2 h-4 w-4"
                   xmlns="http://www.w3.org/2000/svg"
@@ -179,15 +190,12 @@ export function AuthForm({
           {type === "signin"
             ? "Don't have an account?"
             : "Already have an account?"}{" "}
-          <Button
-            variant="link"
+          <Link
+            href={`/${type === "signin" ? "sign-up" : "sign-in"}`}
             className="px-0"
-            onClick={() => {
-              // Handle navigation
-            }}
           >
             {type === "signin" ? "Sign up" : "Sign in"}
-          </Button>
+          </Link>
         </div>
       )}
     </div>
